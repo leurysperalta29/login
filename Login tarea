@@ -1,0 +1,101 @@
+package com.example.lstore;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText et1;
+    EditText et2;
+    Button login;
+    ImageView foto;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        et1 = (EditText) findViewById(R.id.et1);
+        et2 = (EditText) findViewById(R.id.et2);
+        login = (Button) findViewById(R.id.button);
+        foto = (ImageView) findViewById(R.id.imageView);
+        foto.setImageResource(R.drawable.logo);
+
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nombreusuario;
+                String contraseñausuario;
+                nombreusuario = et1.getText().toString();
+                contraseñausuario = et2.getText().toString();
+                if ((nombreusuario.equals("admin")) && (contraseñausuario.equals("29699"))) {
+                    Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                    startActivity(intent);
+
+                } else {
+
+                    Toast.makeText(MainActivity.this, "Error de inicio de sesion", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+}
+
+Activity2:
+
+package com.example.lstore;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
+public class MainActivity2 extends AppCompatActivity {
+
+    private ListView listView;
+    ImageView foto2;
+
+    private String productos [] = {"Salami","Huevos","Pan","Leche","Refresco","Uvas","Queso","Arina","Jamon","Adereso","Katchup","Chuleta",
+    "Tostitos","Mayonesa"};
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main2);
+        foto2 = (ImageView) findViewById(R.id.imageView2);
+        foto2.setImageResource(R.drawable.logo);
+
+        listView = (ListView)findViewById(R.id.listview);
+
+        final ArrayAdapter <String> adapter = new ArrayAdapter<String>(this,R.layout.list_item_store,productos);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(MainActivity2.this,"Producto: "+i+" "+adapter.getItem(i).toString(),Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+    public void atras (View view){
+        Intent anterior = new Intent(this, MainActivity.class);
+        startActivity(anterior);
+    }
+}
